@@ -1,0 +1,144 @@
+{
+  "_note": "Example output of GET /jobs/{id}/shortlist for samples/jd_senior_backend.txt with default weights (match_w=0.6, interest_w=0.4). Top 5 of 20 shown.",
+  "job_id": "fcd1a8e6-9c8e-4f1c-a09e-2b3a3e8f02de",
+  "match_weight": 0.6,
+  "interest_weight": 0.4,
+  "total": 312,
+  "items": [
+    {
+      "rank": 1,
+      "candidate": {
+        "id": "1c2a8d5e-7c11-4d1f-8d4f-6a9c1e0a13b1",
+        "name": "Asha Kumari",
+        "title": "Senior Backend Engineer",
+        "yoe": 7,
+        "seniority": "senior",
+        "skills": ["python", "fastapi", "postgresql", "kafka", "aws", "docker", "redis", "terraform"],
+        "location": "Bengaluru, India",
+        "remote_ok": true
+      },
+      "match_score": 88.0,
+      "interest_score": 86.0,
+      "final_score": 87.2,
+      "breakdown": { "skill": 92, "experience": 88, "domain": 80, "location": 95 },
+      "match_justifications": {
+        "skill": "Has python+fastapi+postgres+kafka+aws — full must-have set",
+        "experience": "7 yoe vs 6 required, senior band matches",
+        "domain": "B2B SaaS payments — adjacent to fintech payments",
+        "location": "Remote-OK candidate, JD allows remote across US"
+      },
+      "interest_signals": [
+        "asked about team size",
+        "open to interviewing soon",
+        "specifically mentioned async culture"
+      ],
+      "interest_concerns": [],
+      "interest_reasoning": "Engaged warmly, asked specific follow-ups, clear availability signal."
+    },
+    {
+      "rank": 2,
+      "candidate": {
+        "id": "5d9e3b2a-2f54-4ee1-9d3b-44a1e0e8d771",
+        "name": "Ade Adetokunbo",
+        "title": "Backend Engineer",
+        "yoe": 5,
+        "seniority": "mid",
+        "skills": ["python", "fastapi", "postgresql", "rabbitmq", "aws", "docker"],
+        "location": "Lagos, Nigeria",
+        "remote_ok": true
+      },
+      "match_score": 76.5,
+      "interest_score": 84.0,
+      "final_score": 79.5,
+      "breakdown": { "skill": 80, "experience": 65, "domain": 90, "location": 70 },
+      "match_justifications": {
+        "skill": "Has python+fastapi+postgres+aws but rabbitmq instead of kafka",
+        "experience": "5 yoe vs 6 required — slightly under but mid-senior fit",
+        "domain": "Direct payments background at multi-currency scale",
+        "location": "Remote-OK candidate, timezone overlap is partial"
+      },
+      "interest_signals": ["actively in the market", "mentioned latency interest"],
+      "interest_concerns": [],
+      "interest_reasoning": "Strong domain fit. Engaged early and confirmed availability."
+    },
+    {
+      "rank": 3,
+      "candidate": {
+        "id": "9a32f4c7-3a4b-4f76-9d3a-12c4d3a9b8e0",
+        "name": "Diego Hernández",
+        "title": "Staff Backend Engineer",
+        "yoe": 11,
+        "seniority": "staff",
+        "skills": ["rust", "postgresql", "tokio", "grpc", "redis", "prometheus", "kubernetes"],
+        "location": "Mexico City, Mexico",
+        "remote_ok": true
+      },
+      "match_score": 78.0,
+      "interest_score": 70.0,
+      "final_score": 74.8,
+      "breakdown": { "skill": 70, "experience": 95, "domain": 75, "location": 75 },
+      "match_justifications": {
+        "skill": "Rust+postgres strong but no FastAPI; bonus stack matches (rust, grpc)",
+        "experience": "11 yoe vs 6 required, one band above (staff) — overqualified hint",
+        "domain": "Trading systems — adjacent to payments domain",
+        "location": "Remote-OK, US-friendly hours"
+      },
+      "interest_signals": ["asked about ownership scope", "asked if there's room for staff IC"],
+      "interest_concerns": ["wants staff-IC track", "skeptical of 'mentor 2-3' framing"],
+      "interest_reasoning": "Engaged on principle but flagged seniority misalignment. Could go either way."
+    },
+    {
+      "rank": 4,
+      "candidate": {
+        "id": "8f4c1d2e-9a8b-4761-a2cf-77b4e8cdef10",
+        "name": "Ravi Subramanian",
+        "title": "Backend Engineer",
+        "yoe": 4,
+        "seniority": "mid",
+        "skills": ["python", "django", "postgresql", "celery", "aws"],
+        "location": "Austin, TX",
+        "remote_ok": true
+      },
+      "match_score": 64.0,
+      "interest_score": 55.0,
+      "final_score": 60.4,
+      "breakdown": { "skill": 60, "experience": 50, "domain": 65, "location": 90 },
+      "match_justifications": {
+        "skill": "Has python+postgres+aws but Django not FastAPI, no Kafka",
+        "experience": "4 yoe vs 6 required — under requirement",
+        "domain": "Logistics dispatch — different domain",
+        "location": "US-based, perfect timezone fit"
+      },
+      "interest_signals": ["polite curiosity"],
+      "interest_concerns": ["lukewarm on the move"],
+      "interest_reasoning": "Polite stall — open to learn more but no urgency signal."
+    },
+    {
+      "rank": 5,
+      "candidate": {
+        "id": "ad22b8e1-66cd-4f0a-bc1f-99e8a11212dd",
+        "name": "Mei Chen",
+        "title": "Senior Backend Engineer",
+        "yoe": 8,
+        "seniority": "senior",
+        "skills": ["go", "kafka", "kubernetes", "postgresql", "grpc", "opentelemetry"],
+        "location": "Seattle, WA",
+        "remote_ok": false,
+        "remote_ok_note": "Wants on-site Seattle"
+      },
+      "match_score": 81.0,
+      "interest_score": 18.0,
+      "final_score": 55.8,
+      "breakdown": { "skill": 75, "experience": 92, "domain": 80, "location": 75 },
+      "match_justifications": {
+        "skill": "Go/Kafka/Postgres strong; bonus grpc + OTel match",
+        "experience": "8 yoe vs 6 required, senior band matches",
+        "domain": "Data pipelines — adjacent to payments",
+        "location": "Seattle on-site only — JD allows remote, partial fit"
+      },
+      "interest_signals": [],
+      "interest_concerns": ["happy where they are", "long runway at current job"],
+      "interest_reasoning": "Strong on paper but not in the market. Polite no-thank-you."
+    }
+  ]
+}

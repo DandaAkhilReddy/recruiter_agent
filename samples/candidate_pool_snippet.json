@@ -1,0 +1,70 @@
+{
+  "_note": "First 5 candidates from a typical seed_candidates.py --count 500 run. Embeddings omitted for brevity (each is a 1536-float vector).",
+  "candidates": [
+    {
+      "name": "Asha Kumari",
+      "title": "Senior Backend Engineer",
+      "yoe": 7,
+      "seniority": "senior",
+      "skills": ["python", "fastapi", "postgresql", "kafka", "aws", "docker", "redis", "terraform"],
+      "domain": "Backend / Distributed Systems",
+      "location": "Bengaluru, India",
+      "remote_ok": true,
+      "summary": "Built a payments ledger at a B2B SaaS unicorn, scaled writes 30x using async PG and partitioning. Strong opinions on idempotency.",
+      "motivations": "Looking for a strong async-first engineering culture and meaningful equity upside. I'm actively interviewing and would love to hear about exciting opportunities.",
+      "interest_archetype": "strong"
+    },
+    {
+      "name": "Ravi Subramanian",
+      "title": "Backend Engineer",
+      "yoe": 4,
+      "seniority": "mid",
+      "skills": ["python", "django", "postgresql", "celery", "aws"],
+      "domain": "Backend / Distributed Systems",
+      "location": "Austin, TX",
+      "remote_ok": true,
+      "summary": "Currently at a Series A logistics startup. Owns the dispatch service end-to-end. Wants to grow into a senior IC role.",
+      "motivations": "Open to a quick chat if the role is genuinely a step up. Happy where I am otherwise.",
+      "interest_archetype": "medium"
+    },
+    {
+      "name": "Mei Chen",
+      "title": "Senior Backend Engineer",
+      "yoe": 8,
+      "seniority": "senior",
+      "skills": ["go", "kafka", "kubernetes", "postgresql", "grpc", "opentelemetry"],
+      "domain": "Backend / Distributed Systems",
+      "location": "Seattle, WA",
+      "remote_ok": false,
+      "summary": "Built data pipelines at a FAANG company. Recently shipped an event-driven rewrite that cut ingestion p99 by 60%. Quiet, careful, produces a lot.",
+      "motivations": "I'm currently very happy and not really looking right now. My runway at my current company is at least 12 more months.",
+      "interest_archetype": "weak"
+    },
+    {
+      "name": "Diego Hernández",
+      "title": "Staff Backend Engineer",
+      "yoe": 11,
+      "seniority": "staff",
+      "skills": ["rust", "postgresql", "tokio", "grpc", "redis", "prometheus", "kubernetes"],
+      "domain": "Backend / Distributed Systems",
+      "location": "Mexico City, Mexico",
+      "remote_ok": true,
+      "summary": "Tech lead for a high-frequency trading firm's order management system. Loves performance work and writing about it on his blog.",
+      "motivations": "I might say yes immediately, or I might pass on principle. If you can convince me in one message, I'm in. Otherwise probably not.",
+      "interest_archetype": "wildcard"
+    },
+    {
+      "name": "Ade Adetokunbo",
+      "title": "Backend Engineer",
+      "yoe": 5,
+      "seniority": "mid",
+      "skills": ["python", "fastapi", "postgresql", "rabbitmq", "aws", "docker"],
+      "domain": "Backend / Payments",
+      "location": "Lagos, Nigeria",
+      "remote_ok": true,
+      "summary": "Builds payments rails for the African continent. Has shipped a multi-currency wallet at production scale (40M users).",
+      "motivations": "Actively in the market. Would love to chat about teams that ship fast and care about latency.",
+      "interest_archetype": "strong"
+    }
+  ]
+}
