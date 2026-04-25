@@ -23,11 +23,9 @@ import asyncio
 import json
 import math
 import random
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Sequence
 from uuid import uuid4
-
-from sqlalchemy import insert
 
 from app.config import get_settings
 from app.db.models import Candidate
@@ -35,6 +33,7 @@ from app.db.session import SessionLocal
 from app.logging import configure_logging, get_logger
 from app.services.aoai import get_aoai
 from app.services.embeddings import embed_texts
+from sqlalchemy import insert
 
 log = get_logger("seed")
 

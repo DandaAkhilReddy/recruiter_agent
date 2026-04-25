@@ -7,7 +7,6 @@ from typing import Any
 from unittest.mock import patch
 
 import pytest
-
 from app.services.jd_parser import JDParseError, parse_jd
 
 
@@ -51,9 +50,11 @@ async def test_parse_jd_invalid_json_raises() -> None:
                 async def create(**_: Any) -> Any:
                     return _fake_completion("not json {")
 
-    with patch("app.services.jd_parser.get_aoai", return_value=FakeClient()):
-        with pytest.raises(JDParseError):
-            await parse_jd("A" * 200)
+    with (
+        patch("app.services.jd_parser.get_aoai", return_value=FakeClient()),
+        pytest.raises(JDParseError),
+    ):
+        await parse_jd("A" * 200)
 
 
 @pytest.mark.asyncio
@@ -65,6 +66,8 @@ async def test_parse_jd_schema_violation_raises() -> None:
                 async def create(**_: Any) -> Any:
                     return _fake_completion(json.dumps({"title": "X"}))  # missing required fields
 
-    with patch("app.services.jd_parser.get_aoai", return_value=FakeClient()):
-        with pytest.raises(JDParseError):
-            await parse_jd("A" * 200)
+    with (
+        patch("app.services.jd_parser.get_aoai", return_value=FakeClient()),
+        pytest.raises(JDParseError),
+    ):
+        await parse_jd("A" * 200)

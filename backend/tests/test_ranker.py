@@ -2,10 +2,9 @@
 from __future__ import annotations
 
 import pytest
-from pydantic import ValidationError
-
 from app.schemas.judge import JudgeResult
 from app.services.ranker import composite_final_score
+from pydantic import ValidationError
 
 
 class TestComposite:

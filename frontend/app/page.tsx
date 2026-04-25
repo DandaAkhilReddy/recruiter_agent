@@ -38,7 +38,7 @@ export default function HomePage() {
     setError(null);
     try {
       const job = await api.createJob(text);
-      router.push(`/jobs/${job.id}`);
+      router.push(`/job?id=${job.id}`);
     } catch (e) {
       setError(e instanceof Error ? e.message : "submit failed");
       setBusy(false);

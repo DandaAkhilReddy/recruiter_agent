@@ -8,8 +8,14 @@ select = ["E", "F", "W", "I", "B", "UP", "N", "ASYNC", "S", "RET", "SIM"]
 ignore = ["E501", "S101"]  # line-length handled by formatter; allow asserts in tests
 
 [tool.ruff.lint.per-file-ignores]
+# Both relative ('tests/**') and absolute ('backend/tests/**') because ruff
+# is invoked from inside backend/ in CI but from repo root locally.
+"tests/**" = ["S"]
 "backend/tests/**" = ["S"]
-"backend/scripts/**" = ["T201"]
+"scripts/**" = ["T201", "S311", "S603", "S607"]
+"backend/scripts/**" = ["T201", "S311", "S603", "S607"]
+"app/routers/**" = ["B008"]               # FastAPI Depends in defaults is idiomatic
+"backend/app/routers/**" = ["B008"]
 
 [tool.pytest.ini_options]
 testpaths = ["backend/tests"]

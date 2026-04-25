@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import csv
 import io
-from typing import AsyncIterator
+from collections.abc import AsyncIterator
 from uuid import UUID
 
 from sqlalchemy import select
@@ -104,7 +104,8 @@ def shortlist_to_csv(items: list[ShortlistItem]) -> AsyncIterator[bytes]:
             "candidate_id",
         ])
         yield buf.getvalue().encode("utf-8")
-        buf.seek(0); buf.truncate(0)
+        buf.seek(0)
+        buf.truncate(0)
 
         for it in items:
             b = it.breakdown or {}
@@ -123,6 +124,7 @@ def shortlist_to_csv(items: list[ShortlistItem]) -> AsyncIterator[bytes]:
                 str(it.candidate.id),
             ])
             yield buf.getvalue().encode("utf-8")
-            buf.seek(0); buf.truncate(0)
+            buf.seek(0)
+            buf.truncate(0)
 
     return gen()

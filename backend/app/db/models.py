@@ -3,12 +3,11 @@ from __future__ import annotations
 from datetime import datetime
 from uuid import UUID, uuid4
 
+# pgvector ORM type — will be installed via pip
+from pgvector.sqlalchemy import Vector
 from sqlalchemy import ARRAY, Boolean, DateTime, ForeignKey, Integer, Numeric, String, Text, func
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
-# pgvector ORM type — will be installed via pip
-from pgvector.sqlalchemy import Vector
 
 from app.db.base import Base
 
@@ -55,21 +54,6 @@ class Candidate(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
-class Conversation(Base):
-    __tablename__ = "conversations"
-
-    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
-    job_id: Mapped[UUID] = mapped_column(ForeignKey("jobs.id", ondelete="CASCADE"), nullable=False)
-    candidate_id: Mapped[UUID] = mapped_column(ForeignKey("candidates.id"), nullable=False)
-    status: Mapped[str] = mapped_column(String(32), default="in_progress")
-    started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
-    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
-
-    messages: Mapped[list["Message"]] = relationship(
-        back_populates="conversation", cascade="all, delete-orphan", order_by="Message.turn_index"
-    )
-
-
 class Message(Base):
     __tablename__ = "messages"
 
@@ -82,7 +66,22 @@ class Message(Base):
     turn_index: Mapped[int] = mapped_column(Integer, nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
-    conversation: Mapped[Conversation] = relationship(back_populates="messages")
+    conversation: Mapped["Conversation"] = relationship(back_populates="messages")  # noqa: UP037
+
+
+class Conversation(Base):
+    __tablename__ = "conversations"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
+    job_id: Mapped[UUID] = mapped_column(ForeignKey("jobs.id", ondelete="CASCADE"), nullable=False)
+    candidate_id: Mapped[UUID] = mapped_column(ForeignKey("candidates.id"), nullable=False)
+    status: Mapped[str] = mapped_column(String(32), default="in_progress")
+    started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+    messages: Mapped[list[Message]] = relationship(
+        back_populates="conversation", cascade="all, delete-orphan", order_by="Message.turn_index"
+    )
 
 
 class Score(Base):

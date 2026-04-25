@@ -17,7 +17,7 @@ import json
 from pathlib import Path
 from uuid import UUID
 
-from sqlalchemy import and_, delete, select, text
+from sqlalchemy import delete, select, text
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.ext.asyncio import AsyncSession
 

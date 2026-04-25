@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useMemo, useState } from "react";
 
 import { ConversationStream, type StreamTurn } from "@/components/ConversationStream";
 import { PipelineTimeline, type Stage } from "@/components/PipelineTimeline";
@@ -9,7 +10,11 @@ import { api } from "@/lib/api";
 import { useJobStream } from "@/lib/sse";
 import type { JobOut, SseEvent } from "@/types/api";
 
-export default function JobLivePage({ params }: { params: { id: string } }) {
+function JobLiveInner() {
+  const router = useRouter();
+  const params = useSearchParams();
+  const id = params.get("id") ?? "";
+
   const [job, setJob] = useState<JobOut | null>(null);
   const [turns, setTurns] = useState<StreamTurn[]>([]);
   const [judged, setJudged] = useState<Record<string, number>>({});
@@ -17,8 +22,7 @@ export default function JobLivePage({ params }: { params: { id: string } }) {
   const [phase, setPhase] = useState<"parsing" | "matching" | "outreach" | "ranking" | "done" | "error">("parsing");
   const [error, setError] = useState<string | null>(null);
 
-  // Stream subscription — opens immediately, replays buffered events.
-  useJobStream(api.streamUrl(params.id), (e: SseEvent) => {
+  useJobStream(id ? api.streamUrl(id) : null, (e: SseEvent) => {
     if (e.type === "outreach_started") setPhase("outreach");
     if (e.type === "turn") setTurns((prev) => [...prev, e]);
     if (e.type === "judge") setJudged((j) => ({ ...j, [e.candidate_id]: e.interest_score }));
@@ -29,21 +33,24 @@ export default function JobLivePage({ params }: { params: { id: string } }) {
     if (e.type === "done") setPhase("done");
   });
 
-  // Phase 1: load job, run match, kick off outreach. Idempotency: only run once per id.
   useEffect(() => {
+    if (!id) {
+      router.push("/");
+      return;
+    }
     let cancelled = false;
     (async () => {
       try {
-        const j = await api.getJob(params.id);
+        const j = await api.getJob(id);
         if (cancelled) return;
         setJob(j);
         if (j.status === "parsed" || j.status === "matched") {
           setPhase("matching");
-          const m = await api.runMatch(params.id);
+          const m = await api.runMatch(id);
           if (cancelled) return;
           setMatchProgress({ matched: m.matched_count, rerank: m.rerank_count });
           setPhase("outreach");
-          await api.startOutreach(params.id);
+          await api.startOutreach(id);
         } else if (j.status === "outreached") {
           setPhase("done");
         }
@@ -57,7 +64,7 @@ export default function JobLivePage({ params }: { params: { id: string } }) {
     return () => {
       cancelled = true;
     };
-  }, [params.id]);
+  }, [id, router]);
 
   const stages = useMemo<Stage[]>(() => {
     const order = ["parsing", "matching", "outreach", "ranking"];
@@ -70,14 +77,14 @@ export default function JobLivePage({ params }: { params: { id: string } }) {
     ].map((s, i): Stage => {
       const state =
         phase === "error"
-          ? i <= order.indexOf(phase as any)
+          ? i <= order.indexOf(phase as "parsing" | "matching" | "outreach" | "ranking")
             ? "failed"
             : "pending"
           : i < idx
-          ? "done"
-          : i === idx
-          ? "running"
-          : "pending";
+            ? "done"
+            : i === idx
+              ? "running"
+              : "pending";
       return { ...s, state };
     });
   }, [phase, matchProgress, turns.length, judged]);
@@ -95,7 +102,7 @@ export default function JobLivePage({ params }: { params: { id: string } }) {
         </div>
         {phase === "done" && (
           <Link
-            href={`/jobs/${params.id}/shortlist`}
+            href={`/shortlist?id=${id}`}
             className="rounded-md bg-accent px-4 py-2 font-medium text-white hover:bg-accent/90"
           >
             View shortlist →
@@ -116,5 +123,13 @@ export default function JobLivePage({ params }: { params: { id: string } }) {
         <ConversationStream turns={turns} />
       </section>
     </main>
+  );
+}
+
+export default function JobLivePage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-slate-500">Loading...</div>}>
+      <JobLiveInner />
+    </Suspense>
   );
 }
