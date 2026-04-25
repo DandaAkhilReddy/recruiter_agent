@@ -1,0 +1,32 @@
+Senior Backend Engineer — Payments Platform
+
+We're a Series B fintech building the next generation of cross-border payments
+infrastructure. We process over $400M in annualized volume across 18 countries
+and need an experienced backend engineer to help us scale to 10x that.
+
+What you'll do
+- Design and ship services that move money. Latency-sensitive, idempotent,
+  exactly-once semantics. We can't afford bugs here.
+- Own the ledger and reconciliation pipeline end-to-end.
+- Partner with compliance and risk to build sanctions/AML screening hooks.
+- Mentor 2-3 mid-level engineers and pull our codebase toward stronger typing
+  and faster CI.
+- Be on-call for the payments tier (1 week in 6, weekday-only rotation).
+
+What we look for
+- 6+ years building production backend services, 3+ in a payments, banking,
+  trading, or other money-moving domain.
+- Deep Python (FastAPI or Django) AND/OR Go. PostgreSQL fluency including
+  query plans, partitioning, and migration strategies for multi-million-row
+  tables. Comfortable with Kafka or similar event streaming.
+- Strong opinions on testing — property-based tests, contract tests,
+  integration tests against real services where it matters.
+- Production AWS experience: ECS/Fargate or EKS, RDS, MSK, IAM. Terraform.
+- Bonus: Rust, gRPC, OpenTelemetry, double-entry bookkeeping experience.
+
+Logistics
+- Remote-friendly across the US (PT, MT, CT, ET). Quarterly onsites in NYC.
+- Comp band $210k-$260k base + equity + benefits.
+- Visa transfer supported (H1B / TN / O1).
+
+Send a short note + GitHub or recent project link. We respond within 5 business days.
