@@ -11,7 +11,7 @@ from slowapi.errors import RateLimitExceeded
 from app import __version__
 from app.config import get_settings
 from app.logging import configure_logging, get_logger
-from app.routers import health, jobs, matching, outreach, stream
+from app.routers import health, jobs, matching, outreach, shortlist, stream
 
 
 @asynccontextmanager
@@ -47,6 +47,7 @@ def create_app() -> FastAPI:
     app.include_router(matching.router)
     app.include_router(outreach.router)
     app.include_router(stream.router)
+    app.include_router(shortlist.router)
     return app
 
 

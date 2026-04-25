@@ -21,6 +21,7 @@ from app.db.session import SessionLocal
 from app.events.bus import publish
 from app.logging import get_logger
 from app.services import persona, recruiter
+from app.services.judge import JudgeError, judge_transcript, persist_interest
 
 log = get_logger(__name__)
 
@@ -122,6 +123,36 @@ async def run_conversation(job: Job, candidate: Candidate, max_turns: int) -> No
     await publish(
         job_id_s,
         {"type": "conversation_done", "candidate_id": str(candidate.id), "candidate_name": candidate.name},
+    )
+
+    # Run Judge on the full transcript and persist interest_* into the Score row.
+    async with SessionLocal() as session:
+        msgs = list(
+            (await session.scalars(
+                select(Message).where(Message.conversation_id == convo.id).order_by(Message.turn_index)
+            )).all()
+        )
+        try:
+            judged = await judge_transcript(msgs)
+        except JudgeError as exc:
+            log.warning("orchestrator.judge_failed", candidate_id=str(candidate.id), error=str(exc))
+            await publish(
+                job_id_s,
+                {"type": "judge_failed", "candidate_id": str(candidate.id), "error": str(exc)},
+            )
+            return
+        await persist_interest(session, job.id, candidate.id, judged)
+    await publish(
+        job_id_s,
+        {
+            "type": "judge",
+            "candidate_id": str(candidate.id),
+            "candidate_name": candidate.name,
+            "interest_score": judged.interest_score,
+            "signals": judged.signals,
+            "concerns": judged.concerns,
+            "reasoning": judged.reasoning,
+        },
     )
 
 
