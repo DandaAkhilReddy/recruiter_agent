@@ -4,8 +4,9 @@
 
 Built on **Azure OpenAI** + **Azure Container Apps** + **Postgres Flexible (pgvector)** + **Next.js on Static Web Apps**. Demo-grade — autoscale-to-0, ~$25-30/mo idle, ~$1 per JD run.
 
+- **🚀 Live demo:** https://mango-flower-0619c860f.7.azurestaticapps.net/
+- **🛠 API:** https://recruit-recruiter-demo-api.yellowpond-0170cfea.japaneast.azurecontainerapps.io/
 - **Repo:** https://github.com/DandaAkhilReddy/recruiter_agent
-- **Live demo:** _pending `azd up` deployment_
 - **Architecture:** [docs/architecture.md](docs/architecture.md)
 - **Sample JD + sample shortlist:** [samples/](samples/)
 

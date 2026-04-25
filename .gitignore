@@ -45,3 +45,4 @@ logs/
 .coverage
 htmlcov/
 coverage.xml
+/scripts/post-deploy.sh
