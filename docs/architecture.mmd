@@ -1,0 +1,38 @@
+%%{ init: { 'theme':'neutral', 'flowchart':{ 'curve':'basis' } } }%%
+flowchart TB
+    subgraph Browser
+        UI["Next.js 14 (App Router)<br/>JD Input · Live Pipeline · Shortlist"]
+    end
+
+    subgraph Azure["Azure (East US 2)"]
+        SWA["Static Web App<br/>(Free tier)"]
+        ACR["Container Registry"]
+        KV["Key Vault<br/>secrets via MI"]
+        AI["App Insights<br/>+ Log Analytics"]
+        AOAI["Azure OpenAI<br/>gpt-4o · gpt-4o-mini · embedding-3-large"]
+        PG[("Postgres Flexible<br/>Burstable B1ms<br/>+ pgvector")]
+        subgraph ACA["Container Apps Env"]
+            API["FastAPI (ACA, scale 0-3)"]
+            subgraph Pipeline["Pipeline (in-process)"]
+                PARSE["JD Parser<br/>(gpt-4o, JSON)"]
+                MATCH["3-stage Matcher<br/>filter → pgvector → LLM rerank"]
+                ORCH["Orchestrator<br/>Recruiter ↔ Persona<br/>Semaphore(5) · SSE bus"]
+                JUDGE["Judge<br/>(gpt-4o, JSON)"]
+                RANK["Ranker<br/>0.6·Match + 0.4·Interest<br/>(weights tunable in UI)"]
+            end
+            API --> PARSE
+            PARSE --> MATCH
+            MATCH --> ORCH
+            ORCH --> JUDGE
+            JUDGE --> RANK
+        end
+    end
+
+    UI -->|"HTTPS"| SWA
+    SWA -->|"static asset upload (azd)"| Azure
+    UI -->|"REST + SSE"| API
+    API -->|"asyncpg + pgvector"| PG
+    API -->|"chat / embeddings"| AOAI
+    API -->|"managed identity"| KV
+    API -->|"OTel"| AI
+    ACA -->|"image pull"| ACR

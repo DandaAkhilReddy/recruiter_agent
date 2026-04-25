@@ -1,0 +1,32 @@
+Senior Machine Learning Engineer — Search Relevance
+
+We're a marketplace with 80M monthly active users. Our search drives 60% of GMV.
+We're hiring an ML engineer to own the relevance stack end-to-end — from ranking
+model training to online serving and offline evaluation.
+
+What you'll do
+- Own a ranking model from data → training → online serving → A/B test → ramp.
+- Improve our retrieval (currently BM25 + a 200M-vector dense index).
+- Design and run A/B tests with statistical rigor (CUPED, sequential testing).
+- Reduce p99 inference latency from 80ms to <40ms without quality regression.
+- Mentor 2 junior ML engineers; raise the bar on offline eval discipline.
+
+Requirements
+- 5+ years ML in production. At least 2 years owning ranking, recsys, or
+  search relevance for a product with >1M users.
+- Strong Python (PyTorch). SQL + Spark for feature engineering at TB scale.
+- Production deployment experience: feature stores, online serving (TF Serving,
+  Triton, BentoML, or similar), shadow traffic, gradual rollouts.
+- A/B testing fluency — you can defend your stat methodology.
+- Comfortable reading recent papers and telling us when they're worth implementing.
+
+Bonus
+- Vector search (FAISS, Qdrant, pgvector, or similar).
+- LLM-augmented retrieval / re-ranking.
+- Marketplace / two-sided dynamics.
+- Public papers, OSS contributions, or detailed blog posts.
+
+Logistics
+- Hybrid in NYC (3 days in office) OR remote across US/Canada (PT-ET).
+- $230k-$290k base + equity + benefits. Visa transfer supported.
+- We respond within 5 business days.
