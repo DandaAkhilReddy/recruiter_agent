@@ -216,13 +216,15 @@ async def main(count: int, gen_batch_size: int, dry_run: bool, seed: int) -> Non
         skills = c.get("skills") or []
         if not isinstance(skills, list):
             skills = [str(skills)]
+        # Lowercase normalize so they overlap with the JD parser's lowercase
+        # output in matcher.hard_filter (Postgres `&&` is case-sensitive).
         rows.append({
             "id": uuid4(),
             "name": str(c.get("name", "Anonymous"))[:200],
             "title": str(c.get("title", ""))[:200],
             "yoe": int(c.get("yoe", 3)),
             "seniority": c.get("_meta_seniority", "mid"),
-            "skills": [str(x) for x in skills][:20],
+            "skills": [str(x).lower() for x in skills][:20],
             "domain": domain_label,
             "location": str(c.get("location", "Remote (US)"))[:120],
             "remote_ok": bool(c.get("remote_ok", True)),
