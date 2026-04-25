@@ -4,10 +4,9 @@ from __future__ import annotations
 from uuid import uuid4
 
 import pytest
-from pydantic import ValidationError
-
 from app.schemas.score import PerDimScore, RerankBatchResult
 from app.services.matcher import WEIGHTS, composite_match_score
+from pydantic import ValidationError
 
 
 def test_weights_sum_to_one() -> None:

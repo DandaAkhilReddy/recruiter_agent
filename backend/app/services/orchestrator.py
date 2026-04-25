@@ -10,7 +10,7 @@ us under AOAI TPM during a demo.
 from __future__ import annotations
 
 import asyncio
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from uuid import UUID
 
 from sqlalchemy import select
@@ -70,7 +70,7 @@ async def _emit_turn(job_id: str, candidate: Candidate, role: str, content: str,
             "role": role,
             "content": content,
             "turn_index": turn_index,
-            "ts": datetime.now(timezone.utc).isoformat(),
+            "ts": datetime.now(UTC).isoformat(),
         },
     )
 
@@ -117,7 +117,7 @@ async def run_conversation(job: Job, candidate: Candidate, max_turns: int) -> No
         c = await session.get(Conversation, convo.id)
         if c is not None:
             c.status = "completed"
-            c.completed_at = datetime.now(timezone.utc)
+            c.completed_at = datetime.now(UTC)
             await session.commit()
 
     await publish(

@@ -9,9 +9,13 @@ DimKey = Literal["skill", "experience", "domain", "location"]
 
 
 class PerDimScore(BaseModel):
-    """LLM-emitted per-candidate score in a rerank batch."""
+    """LLM-emitted per-candidate score in a rerank batch.
 
-    model_config = ConfigDict(strict=True, extra="ignore")
+    Non-strict mode so string UUIDs from JSON-mode AOAI responses coerce
+    into UUID objects via Pydantic's standard parsers.
+    """
+
+    model_config = ConfigDict(extra="ignore")
 
     candidate_id: UUID
     skill: int = Field(ge=0, le=100)
@@ -22,7 +26,7 @@ class PerDimScore(BaseModel):
 
 
 class RerankBatchResult(BaseModel):
-    model_config = ConfigDict(strict=True, extra="ignore")
+    model_config = ConfigDict(extra="ignore")
 
     scores: list[PerDimScore] = Field(default_factory=list)
 

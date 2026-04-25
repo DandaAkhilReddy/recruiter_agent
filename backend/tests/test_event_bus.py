@@ -5,7 +5,6 @@ import asyncio
 from uuid import uuid4
 
 import pytest
-
 from app.events import bus
 
 

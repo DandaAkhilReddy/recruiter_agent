@@ -10,8 +10,9 @@ similar; documented limitation for the demo.
 from __future__ import annotations
 
 import asyncio
+import contextlib
+from collections.abc import AsyncIterator
 from dataclasses import dataclass, field
-from typing import AsyncIterator
 
 from app.logging import get_logger
 
@@ -71,10 +72,8 @@ async def subscribe(job_id: str) -> AsyncIterator[dict]:
             if evt.get("type") == "done":
                 return
     finally:
-        try:
+        with contextlib.suppress(ValueError):
             ch.subscribers.remove(q)
-        except ValueError:
-            pass
 
 
 async def reset(job_id: str) -> None:

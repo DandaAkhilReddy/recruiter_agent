@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import asyncio
-from typing import Sequence
+from collections.abc import Sequence
 
 from app.config import get_settings
 from app.logging import get_logger
