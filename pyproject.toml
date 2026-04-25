@@ -20,7 +20,11 @@ ignore = ["E501", "S101"]  # line-length handled by formatter; allow asserts in 
 [tool.pytest.ini_options]
 testpaths = ["backend/tests"]
 asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
 addopts = "-q"
+markers = [
+    "integration: tests requiring a real Postgres+pgvector instance (skip with `-m 'not integration'`)",
+]
 
 [tool.mypy]
 python_version = "3.11"

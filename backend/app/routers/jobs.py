@@ -1,22 +1,23 @@
 from __future__ import annotations
 
+from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException, Request, status
-from slowapi import Limiter
-from slowapi.util import get_remote_address
+from fastapi import APIRouter, Body, Depends, HTTPException, Request, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.models import Job
 from app.db.session import get_db
 from app.logging import get_logger
+from app.rate_limit import rate_limit
 from app.schemas.jd import JobIn, JobOut
 from app.services.embeddings import embed_one
 from app.services.jd_parser import JDParseError, parse_jd
 
 log = get_logger(__name__)
 router = APIRouter(prefix="/jobs", tags=["jobs"])
-limiter = Limiter(key_func=get_remote_address)
+
+_create_job_rate_limit = rate_limit(max_calls=10, window_seconds=60.0)
 
 
 def _to_out(job: Job) -> JobOut:
@@ -35,9 +36,17 @@ def _to_out(job: Job) -> JobOut:
     )
 
 
-@router.post("", response_model=JobOut, status_code=status.HTTP_201_CREATED)
-@limiter.limit("10/minute")
-async def create_job(request: Request, body: JobIn, db: AsyncSession = Depends(get_db)) -> JobOut:
+@router.post(
+    "",
+    response_model=JobOut,
+    status_code=status.HTTP_201_CREATED,
+    dependencies=[Depends(_create_job_rate_limit)],
+)
+async def create_job(
+    request: Request,
+    body: Annotated[JobIn, Body()],
+    db: AsyncSession = Depends(get_db),
+) -> JobOut:
     try:
         parsed = await parse_jd(body.raw_text)
     except JDParseError as exc:

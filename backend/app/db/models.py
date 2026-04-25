@@ -5,7 +5,18 @@ from uuid import UUID, uuid4
 
 # pgvector ORM type — will be installed via pip
 from pgvector.sqlalchemy import Vector
-from sqlalchemy import ARRAY, Boolean, DateTime, ForeignKey, Integer, Numeric, String, Text, func
+from sqlalchemy import (
+    ARRAY,
+    Boolean,
+    DateTime,
+    ForeignKey,
+    Integer,
+    Numeric,
+    String,
+    Text,
+    UniqueConstraint,
+    func,
+)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -71,6 +82,9 @@ class Message(Base):
 
 class Conversation(Base):
     __tablename__ = "conversations"
+    __table_args__ = (
+        UniqueConstraint("job_id", "candidate_id", name="uq_conversations_job_candidate"),
+    )
 
     id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
     job_id: Mapped[UUID] = mapped_column(ForeignKey("jobs.id", ondelete="CASCADE"), nullable=False)
@@ -86,6 +100,9 @@ class Conversation(Base):
 
 class Score(Base):
     __tablename__ = "scores"
+    __table_args__ = (
+        UniqueConstraint("job_id", "candidate_id", name="uq_scores_job_candidate"),
+    )
 
     id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
     job_id: Mapped[UUID] = mapped_column(ForeignKey("jobs.id", ondelete="CASCADE"), nullable=False)
